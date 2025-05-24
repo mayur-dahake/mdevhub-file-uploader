@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MdevhubFileUploadComponent } from '../mdevhub-file-upload/mdevhub-file-upload.component';
-import { CommonDailogComponentComponent } from '../common-dailog-component/common-dailog-component.component';
+//import { MdevhubFileUploadComponent } from '../mdevhub-file-upload/mdevhub-file-upload.component';
 import * as XLSX from 'xlsx';
 
+import { MdevhubFileUploaderComponent } from 'mdevhub';
 @Component({
   selector: 'app-file-upload-example',
   standalone: false,
@@ -16,7 +16,7 @@ export class FileUploadExampleComponent {
   constructor(public dialog: MatDialog) {}
 
   public importFile(): void {
-    const dialogRef = this.dialog.open(MdevhubFileUploadComponent, {
+    const dialogRef = this.dialog.open(MdevhubFileUploaderComponent, {
       width: '500px',
       data: {
         title: 'Import File',
