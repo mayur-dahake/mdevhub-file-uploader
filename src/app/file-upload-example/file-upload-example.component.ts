@@ -11,9 +11,7 @@ import * as XLSX from 'xlsx';
   styleUrl: './file-upload-example.component.scss',
 })
 export class FileUploadExampleComponent {
-  /**
-   *
-   */
+
   constructor(public dialog: MatDialog) {}
 
   public importFile(): void {

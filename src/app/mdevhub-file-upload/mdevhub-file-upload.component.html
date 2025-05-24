@@ -9,12 +9,12 @@
 
   <div class="upload-box">
     <div
-      class="upload-section"
+      class="upload-section drag-over"
       (dragover)="onDragOver($event)"
       (dragleave)="onDragLeave($event)"
       (drop)="onFileDropped($event)"
     >
-      <div class="upload-icon">
+      <div class="upload-icon" (click)="openFileSelector()">
         <mat-icon class="material-icons-outlined">cloud_upload</mat-icon>
       </div>
 
@@ -30,7 +30,16 @@
           (change)="onFileSelected($event)"
         />
       </div>
-      <div class="file-note">CSV File (max. 10 MB)</div>
+      <div *ngIf="data.enableUrlUpload" class="url-upload">
+        <input type="text" [(ngModel)]="fileUrl" placeholder="Paste file URL" />
+        <button (click)="uploadFromUrl()" [disabled]="!fileUrl">
+          Upload from URL
+        </button>
+      </div>
+      <div class="file-note">
+        Allowed: {{ data.acceptTypes?.join(", ") || "Any" }} (max.
+        {{ data.maxFileSizeMB || 10 }} MB)
+      </div>
     </div>
 
     <div class="uploaded-files">
@@ -88,8 +97,9 @@
         Cancel
       </button>
       <button
-        mat-raised-button
+        mat-button
         class="btn-primary"
+        color="primary"
         [disabled]="!canGoNext()"
         (click)="next()"
       >

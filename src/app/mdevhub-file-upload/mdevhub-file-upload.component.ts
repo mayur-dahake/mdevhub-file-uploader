@@ -36,6 +36,7 @@ export class MdevhubFileUploadComponent implements OnInit {
   public fileFormData: FormData = new FormData();
   public fileError: string | null = null;
   uploadedFiles: UploadFile[] = [];
+  fileUrl: string = '';
 
   constructor(
     public dialogRef: MatDialogRef<MdevhubFileUploadComponent>,
@@ -74,6 +75,21 @@ export class MdevhubFileUploadComponent implements OnInit {
     if (files.length > 0) {
       this.handleFile(files[0]);
     }
+  }
+
+    uploadFromUrl(): void {
+    if (!this.fileUrl) return;
+    fetch(this.fileUrl)
+      .then(res => res.blob())
+      .then(blob => {
+        const name = this.fileUrl.split('/').pop() || 'remote-file';
+        const file = new File([blob], name, { type: blob.type });
+        this.handleFile(file);
+        this.fileUrl = '';
+      })
+      .catch(() => {
+        this.fileError = 'Failed to fetch file from URL.';
+      });
   }
 
   private handleFile(file: File): void {

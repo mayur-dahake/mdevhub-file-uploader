@@ -8,6 +8,7 @@ import { FileUploadExampleComponent } from './file-upload-example/file-upload-ex
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonDailogComponentComponent } from './common-dailog-component/common-dailog-component.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,7 @@ import { CommonDailogComponentComponent } from './common-dailog-component/common
     MdevhubFileUploadComponent,
     CommonDailogComponentComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, MatDialogModule, MatIconModule],
+  imports: [BrowserModule,FormsModule, AppRoutingModule, MatDialogModule, MatIconModule],
   providers: [],
   bootstrap: [AppComponent],
 })
