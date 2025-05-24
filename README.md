@@ -1,77 +1,88 @@
-# Mdevhub File Uploader
+# MDevHub File Uploader
 
-A flexible Angular file upload component with drag & drop, URL upload, file type/size restrictions, progress display, and preview support. Designed for use with Angular Material dialogs.
+A flexible, modern Angular file upload component with drag & drop, URL upload, file type/size restrictions, progress display, and preview support.  
+Built for Angular Material dialogs and easy integration in any Angular project.
+
+---
+
+## 🚀 Demo
+
+- [Live Demo on StackBlitz](https://stackblitz.com/github/mdevhub/mdevhub-file-uploader)  
+- [MDevHub Website](https://mdevhub.com)
 
 ---
 
 ## ✨ Features
 
-- **Single or Multiple File Upload** (configurable)
-- **File Type Restrictions** (`acceptTypes`)
-- **Maximum File Size Limit** (`maxFileSizeMB`)
-- **Upload Progress Bar** for each file
-- **Remove File** before or after upload
-- **URL-based Upload** (fetch file from a direct URL)
-- **Drag & Drop Support** with visual feedback
-- **Manual File Selection** via button
-- **File Metadata Display** (name, size, type, status)
-- **Preview Support** for images and PDFs
-- **Error Messages** for invalid type/size
-- **Custom Upload Handler** (optional)
-- **Theming & SCSS** support
-- **Dialog-based Integration** (no Input/Output events required)
+- Single or multiple file upload (configurable)
+- File type restrictions (`acceptTypes`)
+- Maximum file size limit (`maxFileSizeMB`)
+- Upload progress bar for each file
+- Remove files before or after upload
+- URL-based upload (fetch file from direct URL)
+- Drag & drop support with visual feedback
+- Manual file selection via button
+- File metadata display (name, size, type, status)
+- Preview support for images and PDFs
+- Error messages for invalid type/size
+- Custom upload handler (optional)
+- Theming & SCSS support
+- Dialog-based integration (no Input/Output events required)
 
 ---
 
-## 🚀 Usage
+## 🛠️ Installation
 
-### 1. Open the File Upload Dialog
+```sh
+npm install mdevhub
+```
+
+---
+
+## 🧑‍💻 Usage
+
+### 1. Import and Open the File Upload Dialog
 
 ```typescript
 import { MatDialog } from '@angular/material/dialog';
-import { MdevhubFileUploadComponent } from './mdevhub-file-upload/mdevhub-file-upload.component';
+import { MdevhubFileUploaderComponent } from 'mdevhub';
 
-constructor(private dialog: MatDialog) {}
+@Component({ /* ... */ })
+export class YourComponent {
+  constructor(private dialog: MatDialog) {}
 
-openUploadDialog() {
-  const dialogRef = this.dialog.open(MdevhubFileUploadComponent, {
-    width: '500px',
-    data: {
-      title: 'Import File',
-      allowMultiple: true,
-      acceptTypes: ['*/*'],
-      maxFileSizeMB: 10,
-      enablePreview: true,
-      enableUrlUpload: true,
-    },
-  });
+  openUploadDialog() {
+    const dialogRef = this.dialog.open(MdevhubFileUploaderComponent, {
+      width: '500px',
+      data: {
+        title: 'Import File',
+        allowMultiple: true,
+        acceptTypes: ['image/png', 'application/pdf', '.csv', '.xlsx'],
+        maxFileSizeMB: 10,
+        enablePreview: true,
+        enableUrlUpload: true,
+      },
+    });
 
-  dialogRef.afterClosed().subscribe(result => {
-    if (result && result.files) {
-      // Handle uploaded files
-      result.files.forEach(file => {
-        // file: { name, type, size, rawFile }
-      });
-      // Or use result.formData for direct upload
-    }
-  });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.files) {
+        result.files.forEach(file => {
+          // file: { name, type, size, rawFile }
+          // Process or upload file.rawFile as needed
+        });
+        // Or use result.formData for direct upload
+      }
+    });
+  }
 }
 ```
 
-### 2. Read Excel/CSV Files
+### 2. Add the Demo Component in Your App
 
-```typescript
-readExcelOrCsvFile(file: File) {
-  const reader = new FileReader();
-  reader.onload = (e: any) => {
-    const data = new Uint8Array(e.target.result);
-    const workbook = XLSX.read(data, { type: 'array' });
-    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-    const jsonData = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
-    console.log('Sheet Data:', jsonData);
-  };
-  reader.readAsArrayBuffer(file);
-}
+```html
+<!-- app.component.html -->
+<app-file-upload-example></app-file-upload-example>
+<router-outlet />
 ```
 
 ---
@@ -89,16 +100,11 @@ readExcelOrCsvFile(file: File) {
 
 ---
 
-## 🛠️ Customization
+## 🎨 Theming & Customization
 
-- **Theming:**  
-  Override SCSS variables for colors, backgrounds, etc.
-- **Preview:**  
-  Enable/disable with `enablePreview` flag.
-- **URL Upload:**  
-  Enable/disable with `enableUrlUpload` flag.
-- **Accept Types:**  
-  Restrict file types with `acceptTypes` array.
+- Override SCSS variables for colors, backgrounds, etc.
+- Enable/disable preview and URL upload with flags.
+- Restrict file types with `acceptTypes` array.
 
 ---
 
@@ -110,6 +116,17 @@ readExcelOrCsvFile(file: File) {
 
 ---
 
+## 🌐 Social & Community
+
+- [GitHub](https://github.com/mdevhub)
+- [Twitter](https://twitter.com/mdevhub)
+- [LinkedIn](https://linkedin.com/company/mdevhub)
+- [MDevHub Website](https://mdevhub.com)
+
+---
+
 ## 📄 License
 
 MIT
+
+---
