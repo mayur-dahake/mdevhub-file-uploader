@@ -1,1 +1,53 @@
-<button (click)="importFile()">click me</button>
+<div class="upload-demo-container">
+  <!-- Header -->
+  <header class="demo-header">
+    <span class="brand-logo">
+      <mat-icon>cloud_upload</mat-icon>
+      <span class="brand-title">MDevHub</span>
+    </span>
+  </header>
+
+  <div class="file-upload">
+    <span>File Upload Demo</span>
+    <button mat-raised-button color="primary" (click)="importFile()">
+      Import File(s)
+    </button>
+  </div>
+
+  <div *ngIf="(uploadedFiles?.length ?? 0) > 0" class="uploaded-list">
+    <span>Uploaded Files:</span>
+    <ul>
+      <li *ngFor="let file of uploadedFiles ?? []">
+        <span class="file-name">{{ file.name }}</span>
+        <span class="file-type">({{ file.type || "unknown type" }})</span>
+        <span class="file-size">{{ file.size | number }} bytes</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Footer -->
+  <footer class="demo-footer">
+    <div class="copyright">
+      &copy; {{ currentYear }} MDevHub. All rights reserved.
+    </div>
+    <div class="social-links">
+      <a href="https://github.com/mdevhub" target="_blank" aria-label="GitHub">
+        <mat-icon>code</mat-icon>
+      </a>
+      <a
+        href="https://twitter.com/mdevhub"
+        target="_blank"
+        aria-label="Twitter"
+      >
+        <mat-icon>alternate_email</mat-icon>
+      </a>
+      <a
+        href="https://linkedin.com/company/mdevhub"
+        target="_blank"
+        aria-label="LinkedIn"
+      >
+        <mat-icon>business_center</mat-icon>
+      </a>
+    </div>
+  </footer>
+</div>

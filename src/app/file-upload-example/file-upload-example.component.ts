@@ -11,7 +11,8 @@ import * as XLSX from 'xlsx';
   styleUrl: './file-upload-example.component.scss',
 })
 export class FileUploadExampleComponent {
-
+  uploadedFiles: { name: string; type: string; size: number }[] = [];
+  currentYear = new Date().getFullYear();
   constructor(public dialog: MatDialog) {}
 
   public importFile(): void {
@@ -29,33 +30,34 @@ export class FileUploadExampleComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result && result.files) {
-        result.files.forEach(
-          (file: { type: string; name: string; rawFile: File }) => {
-            if (
-              file.type === 'text/csv' ||
-              file.name.endsWith('.csv') ||
-              file.type ===
-                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
-              file.type === 'application/vnd.ms-excel' ||
-              file.name.endsWith('.xlsx') ||
-              file.name.endsWith('.xls')
-            ) {
-              this.readExcelOrCsvFile(file.rawFile);
-            } else {
-              // For demo: open other files in a new tab
-              const url = URL.createObjectURL(file.rawFile);
-              window.open(url, '_blank');
-              setTimeout(() => URL.revokeObjectURL(url), 10000);
-            }
-          }
+        this.uploadedFiles = result.files.map(
+          (f: { name: string; type: string; size: number }) => ({
+            name: f.name,
+            type: f.type,
+            size: f.size,
+          })
         );
-        // You can also use result.formData for direct upload if needed
-        // Example: this.uploadFormDataToServer(result.formData);
 
-        this.dialog.open(CommonDailogComponentComponent, {
-          data: result,
-          width: '400px',
-        });
+        // result.files.forEach(
+        //   (file: { type: string; name: string; rawFile: File }) => {
+        //     if (
+        //       file.type === 'text/csv' ||
+        //       file.name.endsWith('.csv') ||
+        //       file.type ===
+        //         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+        //       file.type === 'application/vnd.ms-excel' ||
+        //       file.name.endsWith('.xlsx') ||
+        //       file.name.endsWith('.xls')
+        //     ) {
+        //       this.readExcelOrCsvFile(file.rawFile);
+        //     } else {
+        //       // For demo: open other files in a new tab
+        //       const url = URL.createObjectURL(file.rawFile);
+        //       window.open(url, '_blank');
+        //       setTimeout(() => URL.revokeObjectURL(url), 10000);
+        //     }
+        //   }
+        // );       
       }
     });
   }
