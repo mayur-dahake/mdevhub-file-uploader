@@ -34,38 +34,46 @@
     </div>
 
     <div class="uploaded-files">
-      <div class="uploaded-file" *ngIf="uploadedFile">
-        <div class="uploaded-file-icon">
-          <mat-icon class="material-icons-outlined">insert_drive_file</mat-icon>
-        </div>
-
-        <div class="uploaded-file-info">
-          <div class="uploaded-file-name">{{ uploadedFile.name }}</div>
-          <div class="uploaded-file-size">
-            {{ convertFileSize(uploadedFile.size) }}
+      <div
+        class="uploaded-file"
+        *ngFor="let file of uploadedFiles; let i = index"
+      >
+        <div class="upload-file-details">
+          <div class="uploaded-file-icon">
+            <mat-icon class="material-icons-outlined"
+              >insert_drive_file</mat-icon
+            >
           </div>
-        </div>
 
-        <div class="uploaded-file-actions">
-          <button class="close-upload" (click)="removeFile()">
-            <mat-icon class="material-icons-outlined">close</mat-icon>
-          </button>
-          <button class="tick-upload" *ngIf="uploadedFile.progress === 100">
-            <mat-icon>check_circle</mat-icon>
-          </button>
-          <div class="file-preview" *ngIf="uploadedFile?.previewUrl">
-            <mat-icon>visibility</mat-icon>
+          <div class="uploaded-file-info">
+            <div class="uploaded-file-name">{{ file.name }}</div>
+            <div class="uploaded-file-size">
+              {{ convertFileSize(file.size) }}
+            </div>
+          </div>
+
+          <div class="uploaded-file-actions">
+            <button class="tick-upload" *ngIf="file.progress === 100">
+              <mat-icon>check_circle</mat-icon>
+            </button>
+            <button
+              class="file-preview"
+              *ngIf="data.enablePreview && file.progress === 100"
+              (click)="previewFile(file)"
+            >
+              <mat-icon>visibility</mat-icon>
+            </button>
+            <button class="close-upload" (click)="removeFile(i)">
+              <mat-icon class="material-icons-outlined">close</mat-icon>
+            </button>
           </div>
         </div>
 
         <div class="upload-progress-container">
           <div class="upload-progress">
-            <div
-              class="progress-bar"
-              [style.width.%]="uploadedFile.progress"
-            ></div>
+            <div class="progress-bar" [style.width.%]="file.progress"></div>
           </div>
-          <div class="progress-percentage">{{ uploadedFile.progress }}%</div>
+          <div class="progress-percentage">{{ file.progress }}%</div>
         </div>
       </div>
     </div>

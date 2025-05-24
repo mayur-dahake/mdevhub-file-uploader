@@ -1,17 +1,27 @@
+// Theme Variables
+$primary-color: var(--mdevhub-primary, #1a73e8);
+$primary-light: var(--mdevhub-primary-light, #e3f0fd);
+$secondary-color: var(--mdevhub-secondary, #fff);
+$accent-color: var(--mdevhub-accent, #0f9d58);
+$error-color: var(--mdevhub-error, #d32f2f);
+$text-color: var(--mdevhub-text, #222);
+$text-secondary: var(--mdevhub-text-secondary, #666);
+$border-color: var(--mdevhub-border, #bdbdbd);
+$gray-bg: var(--mdevhub-gray-bg, #f5f5f5);
+
 ::ng-deep .mat-dialog-container {
   border-radius: 16px;
+  background: $secondary-color;
 }
-
 
 // Root Container
 .file-upload-container {
-  width: 30vw;
+  width: auto;
   flex-direction: column;
   align-items: center;
   border-radius: 16px;
-  background: white;
+  background: $secondary-color;
   padding: 20px;
-
 
   // Modal Header
   .modal-header {
@@ -19,24 +29,21 @@
     align-items: flex-start;
     gap: 16px;
     align-self: stretch;
-    background: white;
+    background: $secondary-color;
     position: relative;
 
-
     h3 {
-      color: navy;
+      color: $primary-color;
       font-size: 16px;
       font-weight: 600;
       margin: 1px;
     }
 
-
     p {
-      color: gray;
+      color: $text-secondary;
       font-size: 16px;
       font-weight: 400;
     }
-
 
     .close-button {
       position: absolute;
@@ -49,21 +56,18 @@
       padding: 0;
       cursor: pointer;
 
-
       .material-icons-outlined {
-        color: gray;
+        color: $text-secondary;
         font-size: 24px;
       }
     }
   }
-
 
   // Upload Box
   .upload-box {
     display: flex;
     flex-direction: column;
     gap: 20px;
-
 
     .upload-section {
       display: flex;
@@ -74,29 +78,26 @@
       align-items: center;
       gap: 4px;
       border-radius: 12px;
-      border: 1px solid gray;
-      background: white;
-
+      border: 1px solid $border-color;
+      background: $gray-bg;
 
       .upload-icon {
         width: 24px;
         height: 24px;
         padding: 12px 11px;
         border-radius: 10px;
-        background: white;
-
+        background: $secondary-color;
 
         .material-icons-outlined {
-          color: gray;
+          color: $text-secondary;
         }
       }
-
 
       .upload-instruction {
         .click-upload {
           font-size: 16px;
           font-weight: 600;
-          color: blue;
+          color: $primary-color;
           margin-top: 10px;
           line-height: 20px;
           text-decoration: underline;
@@ -105,122 +106,117 @@
           border: none;
         }
 
-
         .drag-drop-text {
-          color: black;
+          color: $text-color;
           font-size: 16px;
           font-weight: 400;
           line-height: 20px;
         }
       }
 
-
       .file-note {
         font-size: 13px;
-        color: gray;
+        color: $text-secondary;
       }
     }
-
 
     .uploaded-files {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-
+      gap: 10px;
+      overflow-y: auto;
+      max-height: 150px;
 
       .uploaded-file {
         display: flex;
         flex-direction: column;
-        padding: 12px 16px;
-        border: 1px solid blue;
+        padding: 10px 12px;
+        border: 1px solid $primary-color;
         border-radius: 10px;
-        background: white;
+        background: $secondary-color;
         position: relative;
         max-width: 550px;
 
-
-        .uploaded-file-icon {
-          position: absolute;
-          top: 16px;
-          left: 16px;
-          font-size: 28px;
-          color: blue;
-        }
-
-
-        .uploaded-file-info {
-          margin-left: 48px;
-          margin-right: 90px;
-          margin-bottom: 6px;
-
-
-          .uploaded-file-name {
-            font-size: 16px;
-            font-weight: 400;
-            color: black;
-          }
-
-
-          .uploaded-file-size {
-            font-size: 13px;
-            color: gray;
-          }
-        }
-
-
-        .uploaded-file-actions {
-          position: absolute;
-          top: 12px;
-          right: 12px;
+        .upload-file-details {
           display: flex;
-          gap: 6px;
+          flex-direction: row;
+          align-items: center;
+          gap: 20px;
 
+          .uploaded-file-icon {
+            height: 24px;
+            width: 24px;
+            color: $primary-color;
+          }
 
-          button {
-            background: none;
-            border: none;
-            cursor: pointer;
-
-
-            &.tick-upload {
-              color: green;
+          .uploaded-file-info {
+            width: 100%;
+            .uploaded-file-name {
+              font-size: 12px;
+              color: $text-color;
             }
 
-
-            &.close-upload {
-              color: gray;
-              fill: gray;
-              border-radius: 60.952px;
-              background: white;
+            .uploaded-file-size {
+              font-size: 11px;
+              color: $text-secondary;
             }
+          }
 
+          .uploaded-file-actions {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            align-items: center;
+            justify-items: center;
+            text-align: center;
 
-            .material-icons-outlined {
-              font-size: 20px;
+            button {
+              background: none;
+              border: none;
+
+              height: 24px;
+              width: 24px;
+              padding: 0;
+
+              &.tick-upload {
+                color: $accent-color;
+              }
+
+              &.close-upload {
+                color: $text-secondary;
+                fill: $text-secondary;
+                border-radius: 60.952px;
+                background: $secondary-color;
+              }
+
+              &.file-preview,
+              &.close-upload {
+                cursor: pointer;
+              }
+
+              .material-icons-outlined {
+                font-size: 20px;
+              }
             }
           }
         }
-
 
         .upload-progress-container {
           display: flex;
           align-items: center;
 
-
           .upload-progress {
             flex: 1;
             height: 6px;
-            background: gray;
+            background: $border-color;
             border-radius: 3px;
             overflow: hidden;
 
-
             .progress-bar {
               height: 100%;
-              background: blue;
+              background: $primary-color;
             }
           }
-
 
           .progress-percentage {
             margin-left: 8px;
@@ -231,56 +227,48 @@
     }
   }
 
-
   // Footer Section
   .modal-footer {
     .file-error {
-      color: red;
+      color: $error-color;
       font-size: 14px;
       margin-bottom: 8px;
     }
-
 
     .footer-actions {
       display: flex;
       justify-content: flex-end;
       gap: 12px;
       width: 100%;
-      border-top: 1px solid gray;
+      border-top: 1px solid $border-color;
       padding-top: 16px;
       margin-top: 16px;
-
 
       .btn-secondary {
         background-color: transparent;
         width: 100px;
         height: 44px;
         border-radius: 6px;
-        border: 1px solid blue;
-        color: blue;
+        border: 1px solid $primary-color;
+        color: $primary-color;
         font-size: 16px;
         font-weight: 500;
       }
 
-
       .btn-primary {
         width: 100px;
         border-radius: 6px;
-        background: blue;
-        color: white;
+        background: $primary-color;
+        color: $secondary-color;
         font-size: 16px;
         font-weight: 500;
         text-transform: capitalize;
 
-
         &:disabled {
-          background-color: gray;
+          background-color: $border-color;
           cursor: not-allowed;
         }
       }
     }
   }
 }
-
-
-

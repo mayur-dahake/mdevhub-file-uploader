@@ -35,7 +35,7 @@ export class MdevhubFileUploadComponent implements OnInit {
 
   public fileFormData: FormData = new FormData();
   public fileError: string | null = null;
-  uploadedFile: UploadFile | null = null;
+  uploadedFiles: UploadFile[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<MdevhubFileUploadComponent>,
@@ -47,7 +47,7 @@ export class MdevhubFileUploadComponent implements OnInit {
       allowMultiple: this.data.allowMultiple ?? true,
       acceptTypes: this.data.acceptTypes ?? ['*/*'],
       maxFileSizeMB: this.data.maxFileSizeMB ?? 10,
-      enablePreview: this.data.enablePreview ?? false,
+      enablePreview: this.data.enablePreview ?? true,
       enableUrlUpload: this.data.enableUrlUpload ?? false,
     };
   }
@@ -93,11 +93,6 @@ export class MdevhubFileUploadComponent implements OnInit {
 
     this.fileError = null;
 
-    // Clear previous
-    if (this.uploadedFile?.intervalId) {
-      clearInterval(this.uploadedFile.intervalId);
-    }
-
     const uploadedFile: UploadFile = {
       name: file.name,
       size: file.size,
@@ -105,34 +100,64 @@ export class MdevhubFileUploadComponent implements OnInit {
       rawFile: file,
     };
 
-    // 👇 Add preview logic
-    if (this.data?.enablePreview && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        uploadedFile.previewUrl = reader.result as string;
-      };
-      reader.readAsDataURL(file);
+    if (this.data.allowMultiple) {
+      this.uploadedFiles.push(uploadedFile);
+    } else {
+      if (this.uploadedFiles[0]?.intervalId) {
+        clearInterval(this.uploadedFiles[0].intervalId);
+      }
+      this.uploadedFiles = [uploadedFile];
     }
-
-    // Cancel previous upload if needed
-    if (this.uploadedFile?.intervalId) {
-      clearInterval(this.uploadedFile.intervalId);
-    }
-
-    this.uploadedFile = uploadedFile;
 
     this.fileFormData = new FormData();
-    this.fileFormData.append('file', file, file.name);
+    this.uploadedFiles.forEach((f) =>
+      this.fileFormData.append('file', f.rawFile, f.name)
+    );
 
-    this.simulateUpload(this.uploadedFile);
+    this.simulateUpload(uploadedFile);
   }
 
-  public removeFile(): void {
-    if (this.uploadedFile?.intervalId) {
-      clearInterval(this.uploadedFile.intervalId);
+  public removeFile(index: number): void {
+    if (this.data.allowMultiple) {
+      // Remove a specific file by index for multiple mode
+      if (index !== undefined && this.uploadedFiles[index]) {
+        if (this.uploadedFiles[index].intervalId) {
+          clearInterval(this.uploadedFiles[index].intervalId);
+        }
+        this.uploadedFiles.splice(index, 1);
+      }
+    } else {
+      // Single file mode: clear the only file
+      if (this.uploadedFiles[0]?.intervalId) {
+        clearInterval(this.uploadedFiles[0].intervalId);
+      }
+      this.uploadedFiles = [];
     }
-    this.uploadedFile = null;
     this.fileFormData = new FormData();
+    this.uploadedFiles.forEach((f) =>
+      this.fileFormData.append('file', f.rawFile, f.name)
+    );
+  }
+
+  public previewFile(file: UploadFile): void {
+    if (!this.data.enablePreview) return;
+
+    const type = file.rawFile.type;
+    if (type.startsWith('image/') || type === 'application/pdf') {
+      // Use object URL for preview
+      const url = URL.createObjectURL(file.rawFile);
+      window.open(url, '_blank');
+      // Optionally revoke after some time
+      setTimeout(() => URL.revokeObjectURL(url), 10000);
+    } else {
+      // Download other files
+      const url = URL.createObjectURL(file.rawFile);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = file.name;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
   }
 
   public simulateUpload(file: UploadFile): void {
@@ -154,11 +179,29 @@ export class MdevhubFileUploadComponent implements OnInit {
   }
 
   public canGoNext(): boolean {
-    return !!this.uploadedFile && this.uploadedFile.progress === 100;
+    if (this.data.allowMultiple) {
+      return (
+        this.uploadedFiles.length > 0 &&
+        this.uploadedFiles.every((f) => f.progress === 100)
+      );
+    } else {
+      return (
+        this.uploadedFiles.length === 1 &&
+        this.uploadedFiles[0].progress === 100
+      );
+    }
   }
 
   public next(): void {
-    this.dialogRef.close({ data: this.fileFormData });
+    this.dialogRef.close({
+      files: this.uploadedFiles.map((f) => ({
+        name: f.name,
+        type: f.rawFile.type,
+        size: f.size,
+        rawFile: f.rawFile,
+      })),
+      formData: this.fileFormData,
+    });
   }
 
   public close(): void {
