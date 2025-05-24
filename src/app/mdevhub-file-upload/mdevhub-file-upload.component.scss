@@ -1,0 +1,286 @@
+::ng-deep .mat-dialog-container {
+  border-radius: 16px;
+}
+
+
+// Root Container
+.file-upload-container {
+  width: 30vw;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 16px;
+  background: white;
+  padding: 20px;
+
+
+  // Modal Header
+  .modal-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    align-self: stretch;
+    background: white;
+    position: relative;
+
+
+    h3 {
+      color: navy;
+      font-size: 16px;
+      font-weight: 600;
+      margin: 1px;
+    }
+
+
+    p {
+      color: gray;
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+
+    .close-button {
+      position: absolute;
+      top: 0;
+      right: 2px;
+      width: 24px;
+      height: 24px;
+      border: none;
+      background: transparent;
+      padding: 0;
+      cursor: pointer;
+
+
+      .material-icons-outlined {
+        color: gray;
+        font-size: 24px;
+      }
+    }
+  }
+
+
+  // Upload Box
+  .upload-box {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+
+    .upload-section {
+      display: flex;
+      height: 156px;
+      padding: 16px 24px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+      border-radius: 12px;
+      border: 1px solid gray;
+      background: white;
+
+
+      .upload-icon {
+        width: 24px;
+        height: 24px;
+        padding: 12px 11px;
+        border-radius: 10px;
+        background: white;
+
+
+        .material-icons-outlined {
+          color: gray;
+        }
+      }
+
+
+      .upload-instruction {
+        .click-upload {
+          font-size: 16px;
+          font-weight: 600;
+          color: blue;
+          margin-top: 10px;
+          line-height: 20px;
+          text-decoration: underline;
+          cursor: pointer;
+          background: none;
+          border: none;
+        }
+
+
+        .drag-drop-text {
+          color: black;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 20px;
+        }
+      }
+
+
+      .file-note {
+        font-size: 13px;
+        color: gray;
+      }
+    }
+
+
+    .uploaded-files {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+
+      .uploaded-file {
+        display: flex;
+        flex-direction: column;
+        padding: 12px 16px;
+        border: 1px solid blue;
+        border-radius: 10px;
+        background: white;
+        position: relative;
+        max-width: 550px;
+
+
+        .uploaded-file-icon {
+          position: absolute;
+          top: 16px;
+          left: 16px;
+          font-size: 28px;
+          color: blue;
+        }
+
+
+        .uploaded-file-info {
+          margin-left: 48px;
+          margin-right: 90px;
+          margin-bottom: 6px;
+
+
+          .uploaded-file-name {
+            font-size: 16px;
+            font-weight: 400;
+            color: black;
+          }
+
+
+          .uploaded-file-size {
+            font-size: 13px;
+            color: gray;
+          }
+        }
+
+
+        .uploaded-file-actions {
+          position: absolute;
+          top: 12px;
+          right: 12px;
+          display: flex;
+          gap: 6px;
+
+
+          button {
+            background: none;
+            border: none;
+            cursor: pointer;
+
+
+            &.tick-upload {
+              color: green;
+            }
+
+
+            &.close-upload {
+              color: gray;
+              fill: gray;
+              border-radius: 60.952px;
+              background: white;
+            }
+
+
+            .material-icons-outlined {
+              font-size: 20px;
+            }
+          }
+        }
+
+
+        .upload-progress-container {
+          display: flex;
+          align-items: center;
+
+
+          .upload-progress {
+            flex: 1;
+            height: 6px;
+            background: gray;
+            border-radius: 3px;
+            overflow: hidden;
+
+
+            .progress-bar {
+              height: 100%;
+              background: blue;
+            }
+          }
+
+
+          .progress-percentage {
+            margin-left: 8px;
+            font-size: 13px;
+          }
+        }
+      }
+    }
+  }
+
+
+  // Footer Section
+  .modal-footer {
+    .file-error {
+      color: red;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+
+    .footer-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      width: 100%;
+      border-top: 1px solid gray;
+      padding-top: 16px;
+      margin-top: 16px;
+
+
+      .btn-secondary {
+        background-color: transparent;
+        width: 100px;
+        height: 44px;
+        border-radius: 6px;
+        border: 1px solid blue;
+        color: blue;
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+
+      .btn-primary {
+        width: 100px;
+        border-radius: 6px;
+        background: blue;
+        color: white;
+        font-size: 16px;
+        font-weight: 500;
+        text-transform: capitalize;
+
+
+        &:disabled {
+          background-color: gray;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}
+
+
+
